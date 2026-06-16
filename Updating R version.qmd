@@ -1,0 +1,83 @@
+---
+title: "Updating R version"
+author: "Clinton"
+format: html
+editor: visual
+---
+
+
+## To update R version
+### Install the new version (for example 4.5.2)
+Download and extract the specific release you want. 
+
+```{bash}
+
+cd /usr/local/src
+
+sudo wget https://cran.r-project.org/src/base/R-4/R-4.5.2.tar.gz
+
+sudo tar -xvzf R-4.5.2.tar.gz
+
+cd R-4.5.2
+
+```
+
+### Configure
+
+```{bash}
+
+./configure \
+  --prefix=/opt/R/4.5.2 \
+  --enable-R-shlib \
+  --with-x=no
+  
+```
+
+### Compile and install
+
+```{bash}
+
+make -j$(nproc)
+
+sudo make install
+
+```
+
+### Create a new profile
+
+```{bash}
+
+sudo nano /etc/profile.d/r-4.5.2.sh
+
+# Add
+
+export R_HOME=/opt/R/4.5.2/lib/R
+export PATH=/opt/R/4.5.2/bin:$PATH
+
+```
+
+### Disable the old profile
+
+```{bash}
+
+sudo mv /etc/profile.d/r-4.3.3.sh /etc/profile.d/r-4.3.3.sh.disabled
+
+```
+
+### Enable the new one
+
+```{bash}
+
+source /etc/profile.d/r-4.5.2.sh
+
+```
+
+### Symlink R into the system path 
+
+```{bash}
+
+sudo ln -sf /opt/R/4.5.2/bin/R /usr/local/bin/R
+sudo ln -sf /opt/R/4.5.2/bin/Rscript /usr/local/bin/Rscript
+
+```
+

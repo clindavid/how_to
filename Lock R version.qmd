@@ -85,3 +85,13 @@ source /etc/profile.d/r-4.3.3.sh
 
 ```
 
+### Symlink R into the system path 
+
+```{bash}
+
+sudo ln -sf /opt/R/4.3.3/bin/R /usr/local/bin/R
+sudo ln -sf /opt/R/4.3.3/bin/Rscript /usr/local/bin/Rscript
+
+```
+
+
