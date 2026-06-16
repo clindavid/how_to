@@ -1,0 +1,25 @@
+---
+title: "Set up a git token for authentication and refreshing"
+author: "Clinton"
+format: html
+editor: visual
+---
+
+## Setting up a git token for a repo
+- On your profile, select your organizations
+- Click on Developer settings, then personal access tokens and the fine-grained tokens
+- Click on generate new token and select owner (should be opml-data unless it's for your personal use)
+- Configure the right level of access,preferably a given repository and then the respective permissions: mostly metadata, contents and commit status.
+
+## Refreshing the GitHub token
+- Follow above steps and click on regenerate button.
+- Navigate to the shiny-server folder on the server and run the following commands:  
+
+```{bash}
+
+git remote set-url origin https://your_username:your_personal_access_token@github.com/your_username/your_repo.git
+
+git pull
+
+```
+

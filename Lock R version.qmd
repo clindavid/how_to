@@ -1,0 +1,87 @@
+---
+title: "Lock R version"
+author: "Clinton"
+format: html
+editor: visual
+---
+
+Even with renv, installing R using apt on ubuntu server often leads to dashboard breaks whenever there's an update on system packages. To avoid that, its best practise to lock the R version and do scheduled updates manually. 
+
+Here's how to do that:
+
+## Remove all APT-managed R 
+Its good to eliminate conflicts before installing from source
+
+```{bash}
+
+sudo apt remove --purge -y r-base r-base-core r-recommended r-base-dev
+sudo apt autoremove -y
+
+```
+
+## Install build dependencies
+You will still need to install system libraries using apt. 
+
+```{bash}
+
+sudo apt update
+sudo apt install -y \
+  build-essential \
+  gcc g++ gfortran \
+  libreadline-dev \
+  libx11-dev libxt-dev libpng-dev libjpeg-dev \
+  libcurl4-openssl-dev libssl-dev libxml2-dev \
+  libbz2-dev liblzma-dev \
+  libpcre2-dev \
+  zlib1g-dev \
+  libblas-dev liblapack-dev \
+  libicu-dev \
+  texinfo \
+  perl \
+wget
+  
+```
+
+## Download the exact R version
+I will use R version 4.3.3. Replace with your desired version. 
+
+```{bash}
+
+cd /usr/local/src
+sudo wget https://cran.r-project.org/src/base/R-4/R-4.3.3.tar.gz
+sudo tar -xvzf R-4.3.3.tar.gz
+cd R-4.3.3
+
+```
+
+## Configure for server
+```{bash}
+
+./configure \
+  --prefix=/opt/R/4.3.3 \
+  --enable-R-shlib \
+  --with-x=no
+  
+```
+
+## Compile and install
+```{bash}
+
+make -j$(nproc)
+sudo make install
+
+```
+
+## Lock R installation
+You can now explicitly control the version via PATH
+```{bash}
+
+sudo nano /etc/profile.d/r-4.3.3.sh
+
+export R_HOME=/opt/R/4.3.3/lib/R
+export PATH=/opt/R/4.3.3/bin:$PATH
+
+source /etc/profile.d/r-4.3.3.sh
+
+```
+

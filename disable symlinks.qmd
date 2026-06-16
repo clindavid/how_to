@@ -1,0 +1,21 @@
+---
+title: "Disable symlinks on renv"
+author: "Clinton"
+format: html
+editor: visual
+---
+
+
+- Navigate to the dashboard folder  
+- Delete the renv folder with the symlinks (package references in RED)
+- Open R  
+- On the console: 
+
+```{r}
+
+Sys.setenv(RENV_CACHE_SYMLINKS=FALSE)
+renv::restore(rebuild=TRUE)
+
+```
+
+- Follow the prompts (Yes)
